@@ -1,62 +1,41 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
 import Budget from '../models/Budget.js';
 
 const router = express.Router();
 
-// Middleware to authenticate user via JWT
-const authenticate = (req, res, next) => {
-  const authHeader = req.headers.authorization || '';
-  const token = authHeader.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'Unauthorized' });
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ message: 'Forbidden' });
-    req.user = user;
-    next();
-  });
-};
-
-// Get budget for logged-in user
-router.get('/budget', authenticate, async (req, res) => {
+router.get('/:userId', async (req, res) => {
   try {
-    const budget = await Budget.findOne({ userId: req.user.id });
-    if (!budget) return res.status(404).json({ message: 'No budget found' });
+    const budget = await Budget.findOne({ userId: req.params.userId });
     res.json(budget);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('GET Budget Error:', err);
+    res.status(500).json({ message: 'Server Error fetching budget' });
   }
 });
 
-// Save or update budget for logged-in user
-router.post('/budget', authenticate, async (req, res) => {
+router.post('/:userId', async (req, res) => {
+  const { income, cards, savings } = req.body;
   try {
-    const { income, bills, creditCards, savingsGoals } = req.body;
-
-    let budget = await Budget.findOne({ userId: req.user.id });
+    let budget = await Budget.findOne({ userId: req.params.userId });
 
     if (budget) {
-      // Update existing budget
       budget.income = income;
-      budget.bills = bills;
-      budget.creditCards = creditCards;
-      budget.savingsGoals = savingsGoals;
-      await budget.save();
-      return res.json({ message: 'Budget updated' });
+      budget.cards = cards;
+      budget.savings = savings;
+    } else {
+      budget = new Budget({
+        userId: req.params.userId,
+        income,
+        cards,
+        savings,
+      });
     }
 
-    // Create new budget document
-    budget = new Budget({
-      userId: req.user.id,
-      income,
-      bills,
-      creditCards,
-      savingsGoals,
-    });
     await budget.save();
-    res.status(201).json({ message: 'Budget saved' });
+    res.json(budget);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('POST Budget Save Error:', err);
+    res.status(500).json({ message: 'Server Error saving budget' });
   }
 });
 

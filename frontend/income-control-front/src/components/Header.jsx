@@ -9,7 +9,7 @@ const Header = () => {
         <Link to="/" className="hover:text-[#CC0000]">Home</Link>
         <Link to="/budget" className="hover:text-[#CC0000]">My Budget</Link>
         <Link to="/advisor" className="hover:text-[#CC0000]">AI Advisor</Link>
-        <Link to="/loginpage" className="hover:text-[#CC0000]">Account</Link>
+        <Link to="/account" className="hover:text-[#CC0000]">Account</Link>
       </nav>
     </header>
 

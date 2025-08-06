@@ -18,7 +18,7 @@ const SignupPage = ({ onSignupSuccess, onSwitchToLogin }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/signup', {
+      const response = await fetch('http://localhost:5000/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -43,7 +43,7 @@ const SignupPage = ({ onSignupSuccess, onSwitchToLogin }) => {
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-md w-full bg-black rounded-lg shadow-lg p-8">
         <h2 className="text-3xl font-bold text-red-800 mb-6 text-center">
-          Texas Tech Budget Signup
+          Income Control Signup
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && <p className="text-red-600 text-center font-semibold">{error}</p>}

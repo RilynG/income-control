@@ -5,7 +5,6 @@ import Footer from '../components/Footer'
 const Home = () => {
   return (
     <div className="min-h-screen bg-white text-black">
-      <Header />
       {/* Hero Section */}
       <section className="container mx-auto flex flex-col md:flex-row items-center justify-between px-6 py-20 gap-10">
         <div className="md:w-1/2">
@@ -25,7 +24,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <Footer />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const LoginPage = ({ onSwitchToSignup }) => {
+const Login = ({ onSwitchToSignup }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,7 +12,7 @@ const LoginPage = ({ onSwitchToSignup }) => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -21,8 +21,10 @@ const LoginPage = ({ onSwitchToSignup }) => {
       const data = await response.json();
 
       if (response.ok) {
+        console.log('Logged in user:', data.user);  // Debugging log
         localStorage.setItem('token', data.token);
-        navigate('/'); // Redirect to homepage after successful login
+        localStorage.setItem('user', JSON.stringify(data.user));  // Save user object
+        navigate('/budget');  // Redirect to Budget page after login
       } else {
         setError(data.message || 'Login failed');
       }
@@ -35,7 +37,7 @@ const LoginPage = ({ onSwitchToSignup }) => {
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-md w-full bg-black rounded-lg shadow-lg p-8">
         <h2 className="text-3xl font-bold text-red-800 mb-6 text-center">
-          Texas Tech Budget Login
+          Income Control Login
         </h2>
 
         {error && (
@@ -44,10 +46,7 @@ const LoginPage = ({ onSwitchToSignup }) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-semibold text-white mb-1"
-            >
+            <label htmlFor="email" className="block text-sm font-semibold text-white mb-1">
               Email Address
             </label>
             <input
@@ -62,10 +61,7 @@ const LoginPage = ({ onSwitchToSignup }) => {
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-semibold text-white mb-1"
-            >
+            <label htmlFor="password" className="block text-sm font-semibold text-white mb-1">
               Password
             </label>
             <input
@@ -102,4 +98,4 @@ const LoginPage = ({ onSwitchToSignup }) => {
   );
 };
 
-export default LoginPage;
+export default Login;

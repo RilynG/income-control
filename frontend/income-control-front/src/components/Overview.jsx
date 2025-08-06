@@ -48,7 +48,7 @@ const Overview = ({ income, expenses, remaining, onIncomeSubmit }) => {
 
       <div className="flex flex-col md:flex-row justify-between gap-4">
         <div className="flex-1 bg-green-100 border-l-4 border-green-500 p-4 rounded shadow text-center">
-          <h3 className="text-lg font-semibold text-green-700">Total Income</h3>
+          <h3 className="text-lg font-semibold text-green-700">Total Balance</h3>
           <p className="text-xl font-bold text-green-900">${income.toFixed(2)}</p>
         </div>
 

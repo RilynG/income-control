@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import LoginPage from './LoginPage';
+import LoginPage from './Login';
 import SignupPage from './SignupPage';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [user, setUser] = useState(null); // you can use this to track logged in user info
 
-  const handleLoginSuccess = (data) => {
-    setUser(data);
+  const handleLoginSuccess = (user) => {
     alert('Login successful!');
-    // You can redirect or update UI here as needed
+    console.log('Logged in user:', user);
+    // optional: redirect here instead of inside LoginPage
   };
 
   const handleSignupSuccess = () => {
