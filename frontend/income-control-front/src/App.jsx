@@ -1,17 +1,22 @@
-import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Budget from './pages/Budget';
+import Advisor from './pages/Advisor';
+import Account from './pages/Account';
+import AuthPage from './pages/AuthPage'; // Import AuthPage instead of LoginPage
 
 function App() {
-  useEffect(() => {
-    fetch('http://localhost:5000/')
-      .then(res => res.text())
-      .then(data => console.log('Backend says:', data))
-      .catch(err => console.error('Error connecting to backend:', err));
-  }, []);
-
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold text-blue-600">Income Control App</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/budget" element={<Budget />} />
+        <Route path="/advisor" element={<Advisor />} />
+        <Route path="/loginpage" element={<AuthPage />} />  {/* Use AuthPage here */}
+      </Routes>
+    </Router>
   );
 }
 
